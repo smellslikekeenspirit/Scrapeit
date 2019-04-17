@@ -1,11 +1,23 @@
 #! usr/bin/env python3
 
 import praw
+import base64
 
-reddit = praw.Reddit(client_id='CqiynT5VPsxU1g',
-                     client_secret='L2YlibTaGa6NVb8PKWR8h4hWddU',
+# We are already supplying the double base64 encoded string.
+# The program will just decode it. :)
+po = 'VERKWmJHbGlWR0ZIWVRaT1ZtSTRVRXRYVWpob05HaFhaR1JW'
+pu = 'UTNGcGVXNVVOVlpRYzNoVk1XYz0='
+
+def encrypted_knowledge(po):
+    # Converting string to bytes, base64 accepts bytes like objects only
+    popo = po.encode()
+    # Double base64 decoding :D / No alt chars required
+    popopo = base64.b64decode(base64.b64decode(popo, altchars=None))
+    return(popopo.decode())
+
+reddit = praw.Reddit(client_id=encrypted_knowledge(pu),
+                     client_secret=encrypted_knowledge(po),
                      user_agent='scrapeit')
-
 
 def main():
     postCount = 0;
@@ -22,7 +34,6 @@ def main():
             postCount += 1
         if postCount == 10:
             break
-
 
 if __name__ == '__main__':
     main()
